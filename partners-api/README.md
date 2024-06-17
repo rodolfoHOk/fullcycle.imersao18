@@ -22,6 +22,7 @@
 - nest g service service-name
 - nest g library
 - nest g app app-name
+- nest g guard guard-name
 
 ## Prisma.js
 

@@ -67,10 +67,10 @@ DELETE  http://localhost:3001/eventos/{{eventoId}}/lugares/{{lugarId}}
 
 
 
-### Reserve lugares and create tickets
+### Reserva lugares e cria tickets
 POST http://localhost:3001/eventos/{{eventoId}}/reservar
 Content-Type: application/json
-X-Api-Token: 1234
+X-Api-Token: 5678
 
 {
   "lugares": ["{{lugarNome}}"],
