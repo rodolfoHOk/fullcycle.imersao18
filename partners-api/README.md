@@ -27,6 +27,8 @@
 - npm install @prisma/client
 - npx prisma migrate dev
 - npx prisma studio
+- npx prisma generate
+- npx prisma migrate reset
 
 ## Rodar
 
