@@ -29,3 +29,9 @@
 ### Arquitetura geral e Microsserviços de parceiros de ingressos em Nest.js
 
 ![About day 1 01](/files/aula1-09.png)
+
+### Projeto do Microsserviços de parceiros de ingressos em Nest.js
+
+[Repositório do Microsserviço Partners API](/partners-api/)
+
+[Readme do Microsserviço Partners API](/partners-api/README.md)
