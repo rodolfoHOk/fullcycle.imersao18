@@ -35,3 +35,29 @@
 [Repositório do Microsserviço Partners API](/partners-api/)
 
 [Readme do Microsserviço Partners API](/partners-api/README.md)
+
+## Dia 2 - Gerenciamento de APIs com Kong
+
+### API Gateway
+
+![API Gateway 01](/files/aula2-01.png)
+
+![API Gateway 02](/files/aula2-02.png)
+
+![API Gateway 03](/files/aula2-03.png)
+
+![API Gateway 04](/files/aula2-04.png)
+
+![API Gateway 05](/files/aula2-05.png)
+
+### Caso de uso do projeto
+
+![API Gateway 06](/files/aula2-06.png)
+
+### Kong
+
+[konghq.com](https://konghq.com/)
+
+[Repositório do Kong API Gateway](/api-gateway/)
+
+[Readme do Kong API Gateway](/api-gateway/README.md)
