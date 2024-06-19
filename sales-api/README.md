@@ -11,15 +11,14 @@
 ## Go
 
 - go mod init github.com/rodolfoHOk/fullcycle.imersao18/sales-api
+- go mod tidy
 
 ## Rodar
 
 ### Requisitos
 
--
+- GoLang
 
 ### Comandos
 
 -
-
-##### Stop 26:47
