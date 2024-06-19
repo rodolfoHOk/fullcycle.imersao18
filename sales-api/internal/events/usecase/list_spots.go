@@ -3,7 +3,7 @@ package usecase
 import "github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/domain"
 
 type ListSpotsInputDTO struct {
-	ID string
+	EventID string
 }
 
 type ListSpotsOutputDTO struct {
@@ -22,12 +22,12 @@ func NewListSpotsUseCase(repo domain.EventRepository) *ListSpotsUseCase {
 }
 
 func (uc *ListSpotsUseCase) Execute(input ListSpotsInputDTO) (*ListSpotsOutputDTO, error) {
-	event, err := uc.repo.FindEventByID(input.ID)
+	event, err := uc.repo.FindEventByID(input.EventID)
 	if err != nil {
 		return nil, err
 	}
 
-	spots, err := uc.repo.FindSpotsByEventID(input.ID)
+	spots, err := uc.repo.FindSpotsByEventID(input.EventID)
 	if err != nil {
 		return nil, err
 	}

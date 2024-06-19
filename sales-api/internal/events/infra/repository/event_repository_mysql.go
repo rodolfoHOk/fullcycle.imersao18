@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/domain"
 )
 
