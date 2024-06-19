@@ -13,7 +13,7 @@ type mysqlEventRepository struct {
 	db *sql.DB
 }
 
-func NewMysqlEventRepository(db *sql.DB) (domain.EventRepository, error) {
+func NewMySqlEventRepository(db *sql.DB) (domain.EventRepository, error) {
 	return &mysqlEventRepository{db: db}, nil
 }
 
