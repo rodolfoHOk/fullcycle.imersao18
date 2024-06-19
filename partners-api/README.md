@@ -12,6 +12,7 @@
 - Prisma.js
 - MySQL
 - Docker
+- Rest
 
 ## Nest.js
 

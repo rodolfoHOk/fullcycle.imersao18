@@ -61,3 +61,9 @@
 [Repositório do Kong API Gateway](/api-gateway/)
 
 [Readme do Kong API Gateway](/api-gateway/README.md)
+
+## Dia 3 - Desenvolvimento da API de vendas com Golang
+
+[Repositório da API de vendas](/sales-api/)
+
+[Readme da API de vendas](/sales-api/README.md)
