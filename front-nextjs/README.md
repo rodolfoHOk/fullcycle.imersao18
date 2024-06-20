@@ -11,6 +11,7 @@
 - Tailwind CSS
 - React Server Components
 - Server Actions
+- Cache (revalidate by time revalidate on demand)
 
 ## Rodar
 
