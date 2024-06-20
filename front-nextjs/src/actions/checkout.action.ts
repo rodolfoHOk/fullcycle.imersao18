@@ -3,6 +3,7 @@
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { clearSpotsAction } from './clear-spots.action';
 
 export async function checkoutAction({
   cardHash,
@@ -34,6 +35,7 @@ export async function checkoutAction({
     return { error: 'Erro ao realizar a compra' };
   }
 
-  // revalidateTag(`events/${eventId}`);
+  clearSpotsAction();
+  revalidateTag(`events/${eventId}`);
   redirect(`/checkout/${eventId}/success`);
 }

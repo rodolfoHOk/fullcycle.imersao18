@@ -8,7 +8,10 @@ export async function getSpots(eventId: string): Promise<{
   const response = await fetch(
     `http://localhost:8080/events/${eventId}/spots`,
     {
-      cache: 'no-store',
+      // cache: 'no-store',
+      next: {
+        tags: [`events/${eventId}`],
+      },
     }
   );
   return response.json();
