@@ -1,9 +1,12 @@
-import { SpotSeat } from '@/components/SpotSeat';
-import { Title } from '@/components/Title';
-import { EventModel } from '@/models/event.model';
-import { SpotModel } from '@/models/spot.model';
 import Image from 'next/image';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { SpotSeat } from '@/components/SpotSeat';
+import { Title } from '@/components/Title';
+import { TicketKindSelect } from './TicketKindSelect';
+import { EventModel } from '@/models/event.model';
+import { SpotModel } from '@/models/spot.model';
+import { brlCurrencyFormat } from '@/utils/brl-currenty-format';
 
 export async function getSpots(eventId: string): Promise<{
   event: EventModel;
@@ -13,9 +16,6 @@ export async function getSpots(eventId: string): Promise<{
     `http://localhost:8080/events/${eventId}/spots`,
     {
       cache: 'no-store',
-      next: {
-        tags: [`events/${eventId}`],
-      },
     }
   );
   return response.json();
@@ -56,6 +56,14 @@ export default async function SpotsLayoutPage({
       ],
     };
   });
+
+  const cookieStore = cookies();
+  const selectedSpots = JSON.parse(cookieStore.get('spots')?.value || '[]');
+  let totalPrice = selectedSpots.length * event.price;
+  const ticketKind = cookieStore.get('ticketKind')?.value || 'full';
+  if (ticketKind === 'half') {
+    totalPrice = totalPrice / 2;
+  }
 
   return (
     <main className="mt-10">
@@ -125,7 +133,7 @@ export default async function SpotsLayoutPage({
                           spotId={spot.name}
                           spotLabel={spot.name.slice(1)}
                           eventId={event.id}
-                          selected={false}
+                          selected={selectedSpots.includes(spot.name)}
                           disabled={spot.status === 'sold'}
                         />
                       );
@@ -160,13 +168,18 @@ export default async function SpotsLayoutPage({
           </h1>
 
           <p>
-            Inteira: {'to do: R$ 100,00'} <br />
-            Meia-entrada: {`to do: R$ 50,00`}
+            Inteira: {brlCurrencyFormat(event.price)} <br />
+            Meia-entrada: {brlCurrencyFormat(event.price / 2)}
           </p>
 
-          <div className="flex flex-col">{'To do select'}</div>
+          <div className="flex flex-col">
+            <TicketKindSelect
+              defaultValue={ticketKind as any}
+              price={event.price}
+            />
+          </div>
 
-          <div>Total: {'to do'}</div>
+          <div>Total: {brlCurrencyFormat(totalPrice)}</div>
 
           <Link
             href="/checkout"
