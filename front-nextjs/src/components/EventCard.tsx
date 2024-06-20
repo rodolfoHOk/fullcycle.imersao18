@@ -1,6 +1,6 @@
-import { EventModel } from '@/models/event.model';
-import Image from 'next/image';
 import Link from 'next/link';
+import { EventImage } from './EventImage';
+import { EventModel } from '@/models/event.model';
 
 export type EventCardProps = {
   event: EventModel;
@@ -10,13 +10,7 @@ export function EventCard({ event }: EventCardProps) {
   return (
     <Link href={`/event/${event.id}/spots-layout`}>
       <div className="flex w-[277px] flex-col rounded-2xl bg-secondary">
-        <Image
-          className="rounded-t-2xl"
-          src={event.image_url}
-          alt={event.name}
-          width={300}
-          height={200}
-        />
+        <EventImage src={event.image_url} alt={event.name} />
 
         <div className="flex flex-col gap-y-2 px-4 py-6">
           <p className="text-sm uppercase text-subtitle">

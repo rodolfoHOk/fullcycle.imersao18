@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 import { SpotSeat } from '@/components/SpotSeat';
 import { Title } from '@/components/Title';
+import { EventImage } from '@/components/EventImage';
 import { TicketKindSelect } from './TicketKindSelect';
 import { brlCurrencyFormat } from '@/utils/brl-currenty-format';
 import { getSpots } from '@/queries/get-spots.query';
@@ -54,13 +54,7 @@ export default async function SpotsLayoutPage({
   return (
     <main className="mt-10">
       <div className="flex w-[1176px] max-w-full flex-row flex-wrap justify-center gap-x-8 rounded-2xl bg-secondary p-4 md:justify-normal">
-        <Image
-          className="rounded-t-2xl"
-          src={event.image_url}
-          alt={event.name}
-          width={300}
-          height={200}
-        />
+        <EventImage src={event.image_url} alt={event.name} />
 
         <div className="flex max-w-full flex-col gap-y-6">
           <div className="flex flex-col gap-y-2 ">
