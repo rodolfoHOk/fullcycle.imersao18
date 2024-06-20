@@ -67,3 +67,9 @@
 [Repositório da API de vendas](/sales-api/)
 
 [Readme da API de vendas](/sales-api/README.md)
+
+## Dia 4 - O que há de mais moderno no Frontend com React e Next.js
+
+[Repositório do Frontend](/front-nextjs/)
+
+[Readme do Frontend](/front-nextjs/README.md)
