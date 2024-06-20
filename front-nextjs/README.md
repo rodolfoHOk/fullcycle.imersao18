@@ -10,6 +10,7 @@
 - Next.js / React.js
 - Tailwind CSS
 - React Server Components
+- Server Actions
 
 ## Rodar
 
