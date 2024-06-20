@@ -1,14 +1,61 @@
 import { SpotSeat } from '@/components/SpotSeat';
 import { Title } from '@/components/Title';
-import { getEvent } from '@/models/mocks/get-event';
-import { getSpot } from '@/models/mocks/get-spot';
+import { EventModel } from '@/models/event.model';
+import { SpotModel } from '@/models/spot.model';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function SpotsLayoutPage() {
-  const event = getEvent();
+export async function getSpots(eventId: string): Promise<{
+  event: EventModel;
+  spots: SpotModel[];
+}> {
+  const response = await fetch(
+    `http://localhost:8080/events/${eventId}/spots`,
+    {
+      cache: 'no-store',
+      next: {
+        tags: [`events/${eventId}`],
+      },
+    }
+  );
+  return response.json();
+}
 
-  const spot = getSpot();
+type SpotsLayoutPageProps = {
+  params: {
+    eventId: string;
+  };
+};
+
+export default async function SpotsLayoutPage({
+  params,
+}: SpotsLayoutPageProps) {
+  const { event, spots } = await getSpots(params.eventId);
+
+  const rowLetters = spots.map((spot) => spot.name[0]);
+  const uniqueRows = rowLetters.filter(
+    (row, index) => rowLetters.indexOf(row) === index
+  );
+  const spotGroupedByRow = uniqueRows.map((row) => {
+    return {
+      row,
+      spots: [
+        ...spots
+          .filter((spot) => spot.name[0] === row)
+          .sort((a, b) => {
+            const aNumber = parseInt(a.name.slice(1));
+            const bNumber = parseInt(b.name.slice(1));
+            if (aNumber < bNumber) {
+              return -1;
+            }
+            if (aNumber > bNumber) {
+              return 1;
+            }
+            return 0;
+          }),
+      ],
+    };
+  });
 
   return (
     <main className="mt-10">
@@ -24,7 +71,6 @@ export default function SpotsLayoutPage() {
         <div className="flex max-w-full flex-col gap-y-6">
           <div className="flex flex-col gap-y-2 ">
             <p className="text-sm font-semibold uppercase text-subtitle">
-              {/* SÁB, 11/05/2024 - 20h00 */}
               {new Date(event.date).toLocaleDateString('pt-BR', {
                 weekday: 'long',
                 day: '2-digit',
@@ -63,14 +109,31 @@ export default function SpotsLayoutPage() {
           </div>
 
           <div className="md:w-full md:justify-normal">
-            <SpotSeat
-              key={spot.name}
-              spotId={spot.name}
-              spotLabel={spot.name.slice(1)}
-              eventId={event.id}
-              selected={false}
-              disabled={spot.status === 'sold'}
-            />
+            {spotGroupedByRow.map((row) => {
+              return (
+                <div
+                  key={row.row}
+                  className="flex flex-row gap-3 items-center mb-3"
+                >
+                  <div className="w-4">{row.row}</div>
+
+                  <div className="ml-2 flex flex-row">
+                    {row.spots.map((spot) => {
+                      return (
+                        <SpotSeat
+                          key={spot.name}
+                          spotId={spot.name}
+                          spotLabel={spot.name.slice(1)}
+                          eventId={event.id}
+                          selected={false}
+                          disabled={spot.status === 'sold'}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex w-full flex-row justify-around">
@@ -97,8 +160,8 @@ export default function SpotsLayoutPage() {
           </h1>
 
           <p>
-            Inteira: {'R$ 100,00'} <br />
-            Meia-entrada: {`R$ 50,00`}
+            Inteira: {'to do: R$ 100,00'} <br />
+            Meia-entrada: {`to do: R$ 50,00`}
           </p>
 
           <div className="flex flex-col">{'To do select'}</div>
