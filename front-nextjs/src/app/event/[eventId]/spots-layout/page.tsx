@@ -4,22 +4,8 @@ import { cookies } from 'next/headers';
 import { SpotSeat } from '@/components/SpotSeat';
 import { Title } from '@/components/Title';
 import { TicketKindSelect } from './TicketKindSelect';
-import { EventModel } from '@/models/event.model';
-import { SpotModel } from '@/models/spot.model';
 import { brlCurrencyFormat } from '@/utils/brl-currenty-format';
-
-export async function getSpots(eventId: string): Promise<{
-  event: EventModel;
-  spots: SpotModel[];
-}> {
-  const response = await fetch(
-    `http://localhost:8080/events/${eventId}/spots`,
-    {
-      cache: 'no-store',
-    }
-  );
-  return response.json();
-}
+import { getSpots } from '@/queries/get-spots.query';
 
 type SpotsLayoutPageProps = {
   params: {

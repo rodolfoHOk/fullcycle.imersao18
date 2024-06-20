@@ -1,16 +1,6 @@
 import { EventCard } from '@/components/EventCard';
 import { Title } from '@/components/Title';
-import { EventModel } from '@/models/event.model';
-
-export async function getEvents(): Promise<{ events: EventModel[] }> {
-  const response = await fetch('http://localhost:8080/events', {
-    cache: 'no-store',
-    // next: {
-    //   revalidate: 10, // 10 seconds
-    // },
-  });
-  return response.json();
-}
+import { getEvents } from '@/queries/get-events.query';
 
 export default async function HomePage() {
   const { events } = await getEvents();

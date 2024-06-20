@@ -1,9 +1,24 @@
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { Title } from '@/components/Title';
-import { getEvent } from '@/models/mocks/get-event';
 import { CheckoutForm } from './CheckoutForm';
+import { brlCurrencyFormat } from '@/utils/brl-currenty-format';
+import { getEvent } from '@/queries/get-event.query';
 
-export default function CheckoutPage() {
-  const event = getEvent();
+export default async function CheckoutPage() {
+  const cookiesStore = cookies();
+  const eventId = cookiesStore.get('eventId')?.value;
+  if (!eventId) {
+    return redirect('/');
+  }
+  const event = await getEvent(eventId);
+
+  const selectedSpots = JSON.parse(cookiesStore.get('spots')?.value || '[]');
+  let totalPrice = selectedSpots.length * event.price;
+  const ticketKind = cookiesStore.get('ticketKind')?.value || 'full';
+  if (ticketKind === 'half') {
+    totalPrice = totalPrice / 2;
+  }
 
   return (
     <main className="mt-10 flex flex-wrap justify-center md:justify-between">
@@ -23,7 +38,9 @@ export default function CheckoutPage() {
           })}
         </p>
 
-        <p className="font-semibold text-white">{'to do total price'}</p>
+        <p className="font-semibold text-white">
+          {brlCurrencyFormat(totalPrice)}
+        </p>
       </div>
 
       <div className="w-full max-w-[650px] rounded-2xl bg-secondary p-4">
