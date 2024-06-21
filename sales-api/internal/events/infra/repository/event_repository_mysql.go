@@ -22,7 +22,7 @@ func (r *mysqlEventRepository) ListEvents() ([]domain.Event, error) {
 		SELECT 
 			e.id, e.name, e.location, e.organization, e.rating, e.date, e.image_url, e.capacity, e.price, e.partner_id,
 			s.id, s.event_id, s.name, s.status, s.ticket_id,
-			t.id, t.event_id, t.spot_id, t.ticket_type, t.price
+			t.id, t.event_id, t.spot_id, t.ticket_kind, t.price
 		FROM events e
 		LEFT JOIN spots s ON e.id = s.event_id
 		LEFT JOIN tickets t ON s.id = t.spot_id
@@ -36,7 +36,7 @@ func (r *mysqlEventRepository) ListEvents() ([]domain.Event, error) {
 	eventMap := make(map[string]*domain.Event)
 	spotMap := make(map[string]*domain.Spot)
 	for rows.Next() {
-		var eventID, eventName, eventLocation, eventOrganization, eventRating, eventImageURL, spotID, spotEventID, spotName, spotStatus, spotTicketID, ticketID, ticketEventID, ticketSpotID, ticketType sql.NullString
+		var eventID, eventName, eventLocation, eventOrganization, eventRating, eventImageURL, spotID, spotEventID, spotName, spotStatus, spotTicketID, ticketID, ticketEventID, ticketSpotID, ticketKind sql.NullString
 		var eventDate sql.NullString
 		var eventCapacity int
 		var eventPrice, ticketPrice sql.NullFloat64
@@ -45,7 +45,7 @@ func (r *mysqlEventRepository) ListEvents() ([]domain.Event, error) {
 		err := rows.Scan(
 			&eventID, &eventName, &eventLocation, &eventOrganization, &eventRating, &eventDate, &eventImageURL, &eventCapacity, &eventPrice, &partnerID,
 			&spotID, &spotEventID, &spotName, &spotStatus, &spotTicketID,
-			&ticketID, &ticketEventID, &ticketSpotID, &ticketType, &ticketPrice,
+			&ticketID, &ticketEventID, &ticketSpotID, &ticketKind, &ticketPrice,
 		)
 		if err != nil {
 			return nil, err
@@ -97,7 +97,7 @@ func (r *mysqlEventRepository) ListEvents() ([]domain.Event, error) {
 					ID:         ticketID.String,
 					EventID:    ticketEventID.String,
 					Spot:       spot,
-					TicketKind: domain.TicketKind(ticketType.String),
+					TicketKind: domain.TicketKind(ticketKind.String),
 					Price:      ticketPrice.Float64,
 				}
 				event.Tickets = append(event.Tickets, ticket)
@@ -122,7 +122,7 @@ func (r *mysqlEventRepository) FindEventByID(eventID string) (*domain.Event, err
 		SELECT 
 			e.id, e.name, e.location, e.organization, e.rating, e.date, e.image_url, e.capacity, e.price, e.partner_id,
 			s.id, s.event_id, s.name, s.status, s.ticket_id,
-			t.id, t.event_id, t.spot_id, t.ticket_type, t.price
+			t.id, t.event_id, t.spot_id, t.ticket_kind, t.price
 		FROM events e
 		LEFT JOIN spots s ON e.id = s.event_id
 		LEFT JOIN tickets t ON s.id = t.spot_id
@@ -136,7 +136,7 @@ func (r *mysqlEventRepository) FindEventByID(eventID string) (*domain.Event, err
 
 	var event *domain.Event
 	for rows.Next() {
-		var eventIDStr, eventName, eventLocation, eventOrganization, eventRating, eventImageURL, spotID, spotEventID, spotName, spotStatus, spotTicketID, ticketID, ticketEventID, ticketSpotID, ticketType sql.NullString
+		var eventIDStr, eventName, eventLocation, eventOrganization, eventRating, eventImageURL, spotID, spotEventID, spotName, spotStatus, spotTicketID, ticketID, ticketEventID, ticketSpotID, ticketKind sql.NullString
 		var eventDate sql.NullString
 		var eventCapacity int
 		var eventPrice, ticketPrice sql.NullFloat64
@@ -145,7 +145,7 @@ func (r *mysqlEventRepository) FindEventByID(eventID string) (*domain.Event, err
 		err := rows.Scan(
 			&eventIDStr, &eventName, &eventLocation, &eventOrganization, &eventRating, &eventDate, &eventImageURL, &eventCapacity, &eventPrice, &partnerID,
 			&spotID, &spotEventID, &spotName, &spotStatus, &spotTicketID,
-			&ticketID, &ticketEventID, &ticketSpotID, &ticketType, &ticketPrice,
+			&ticketID, &ticketEventID, &ticketSpotID, &ticketKind, &ticketPrice,
 		)
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
@@ -194,7 +194,7 @@ func (r *mysqlEventRepository) FindEventByID(eventID string) (*domain.Event, err
 					ID:         ticketID.String,
 					EventID:    ticketEventID.String,
 					Spot:       &spot,
-					TicketKind: domain.TicketKind(ticketType.String),
+					TicketKind: domain.TicketKind(ticketKind.String),
 					Price:      ticketPrice.Float64,
 				}
 				event.Tickets = append(event.Tickets, ticket)
@@ -226,7 +226,7 @@ func (r *mysqlEventRepository) FindSpotByID(spotID string) (*domain.Spot, error)
 	query := `
 		SELECT
 			s.id, s.event_id, s.name, s.status, s.ticket_id,
-			t.id, t.event_id, t.spot_id, t.ticket_type, t.price
+			t.id, t.event_id, t.spot_id, t.ticket_kind, t.price
 		FROM spots s
 		LEFT JOIN tickets t ON s.id = t.spot_id
 		WHERE s.id = ?
@@ -235,12 +235,12 @@ func (r *mysqlEventRepository) FindSpotByID(spotID string) (*domain.Spot, error)
 
 	var spot domain.Spot
 	var ticket domain.Ticket
-	var ticketID, ticketEventID, ticketSpotID, ticketType sql.NullString
+	var ticketID, ticketEventID, ticketSpotID, ticketKind sql.NullString
 	var ticketPrice sql.NullFloat64
 
 	err := row.Scan(
 		&spot.ID, &spot.EventID, &spot.Name, &spot.Status, &spot.TicketID,
-		&ticketID, &ticketEventID, &ticketSpotID, &ticketType, &ticketPrice,
+		&ticketID, &ticketEventID, &ticketSpotID, &ticketKind, &ticketPrice,
 	)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -253,7 +253,7 @@ func (r *mysqlEventRepository) FindSpotByID(spotID string) (*domain.Spot, error)
 		ticket.ID = ticketID.String
 		ticket.EventID = ticketEventID.String
 		ticket.Spot = &spot
-		ticket.TicketKind = domain.TicketKind(ticketType.String)
+		ticket.TicketKind = domain.TicketKind(ticketKind.String)
 		ticket.Price = ticketPrice.Float64
 		spot.TicketID = ticket.ID
 	}
@@ -272,7 +272,7 @@ func (r *mysqlEventRepository) CreateSpot(spot *domain.Spot) error {
 
 func (r *mysqlEventRepository) CreateTicket(ticket *domain.Ticket) error {
 	query := `
-		INSERT INTO tickets (id, event_id, spot_id, ticket_type, price)
+		INSERT INTO tickets (id, event_id, spot_id, ticket_kind, price)
 		VALUES (?, ?, ?, ?, ?)
 	`
 	_, err := r.db.Exec(query, ticket.ID, ticket.EventID, ticket.Spot.ID, ticket.TicketKind, ticket.Price)
@@ -321,7 +321,7 @@ func (r *mysqlEventRepository) FindSpotByName(eventID, name string) (*domain.Spo
 	query := `
 		SELECT 
 			s.id, s.event_id, s.name, s.status, s.ticket_id,
-			t.id, t.event_id, t.spot_id, t.ticket_type, t.price
+			t.id, t.event_id, t.spot_id, t.ticket_kind, t.price
 		FROM spots s
 		LEFT JOIN tickets t ON s.id = t.spot_id
 		WHERE s.event_id = ? AND s.name = ?
@@ -330,12 +330,12 @@ func (r *mysqlEventRepository) FindSpotByName(eventID, name string) (*domain.Spo
 
 	var spot domain.Spot
 	var ticket domain.Ticket
-	var ticketID, ticketEventID, ticketSpotID, ticketType sql.NullString
+	var ticketID, ticketEventID, ticketSpotID, ticketKind sql.NullString
 	var ticketPrice sql.NullFloat64
 
 	err := row.Scan(
 		&spot.ID, &spot.EventID, &spot.Name, &spot.Status, &spot.TicketID,
-		&ticketID, &ticketEventID, &ticketSpotID, &ticketType, &ticketPrice,
+		&ticketID, &ticketEventID, &ticketSpotID, &ticketKind, &ticketPrice,
 	)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -348,7 +348,7 @@ func (r *mysqlEventRepository) FindSpotByName(eventID, name string) (*domain.Spo
 		ticket.ID = ticketID.String
 		ticket.EventID = ticketEventID.String
 		ticket.Spot = &spot
-		ticket.TicketKind = domain.TicketKind(ticketType.String)
+		ticket.TicketKind = domain.TicketKind(ticketKind.String)
 		ticket.Price = ticketPrice.Float64
 		spot.TicketID = ticket.ID
 	}

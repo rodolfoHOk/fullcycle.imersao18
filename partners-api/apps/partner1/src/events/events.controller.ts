@@ -14,7 +14,7 @@ import { CreateEventRequest } from './request/create-event.request';
 import { UpdateEventRequest } from './request/update-event.request';
 import { ReserveSpotRequest } from './request/reserve-spot.request';
 import { AuthGuard } from '@app/core/auth/auth.guard';
-import { ReserveSpotResponse } from './response/reserve-spot-response';
+import { ReserveSpotResponse } from './response/reserve-spot.response';
 
 @Controller('events')
 export class EventsController {
@@ -51,11 +51,11 @@ export class EventsController {
 
   @UseGuards(AuthGuard)
   @Post(':id/reserve')
-  reserveSpots(
+  async reserveSpots(
     @Param('id') eventId: string,
     @Body() reserveSpotRequest: ReserveSpotRequest,
   ) {
-    const tickets = this.eventsService.reserveSpot({
+    const tickets = await this.eventsService.reserveSpot({
       ...reserveSpotRequest,
       eventId,
     });

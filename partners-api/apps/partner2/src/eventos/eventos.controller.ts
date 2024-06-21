@@ -15,6 +15,7 @@ import { AtualizarEventoRequest } from './request/atualizar-evento.request';
 import { ReservarLugarRequest } from './request/reservar-lugar.request';
 import { TicketKind } from '@prisma/client';
 import { AuthGuard } from '@app/core/auth/auth.guard';
+import { ReservarLugarResponse } from './response/reservar-lugar.response';
 
 @Controller('eventos')
 export class EventosController {
@@ -61,11 +62,11 @@ export class EventosController {
 
   @UseGuards(AuthGuard)
   @Post(':id/reservar')
-  reserveSpots(
+  async reserveSpots(
     @Param('id') eventoId: string,
     @Body() reservarLugarRequest: ReservarLugarRequest,
   ) {
-    return this.eventsService.reserveSpot({
+    const ticket = await this.eventsService.reserveSpot({
       spots: reservarLugarRequest.lugares,
       email: reservarLugarRequest.email,
       eventId: eventoId,
@@ -74,5 +75,6 @@ export class EventosController {
           ? TicketKind.full
           : TicketKind.half,
     });
+    return new ReservarLugarResponse(ticket);
   }
 }
