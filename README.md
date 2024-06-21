@@ -80,7 +80,7 @@
 
 [Readme do Kong API Gateway](/api-gateway/README.md)
 
-## Run All
+## Rodar Tudo
 
 ### Requisitos
 

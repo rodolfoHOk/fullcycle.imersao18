@@ -15,7 +15,7 @@ const (
 
 var (
 	ErrTicketPricePositive = errors.New("ticket price must be greater than zero")
-	ErrTicketTypeInvalid   = errors.New("invalid ticket kind")
+	ErrTicketKindInvalid   = errors.New("invalid ticket kind")
 )
 
 type Ticket struct {
@@ -28,7 +28,7 @@ type Ticket struct {
 
 func NewTicket(event *Event, spot *Spot, ticketKind TicketKind) (*Ticket, error) {
 	if !IsValidTicketKind(ticketKind) {
-		return nil, ErrTicketTypeInvalid
+		return nil, ErrTicketKindInvalid
 	}
 	ticket := &Ticket{
 		ID:         uuid.New().String(),
