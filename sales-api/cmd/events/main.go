@@ -10,6 +10,8 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
+
 	_ "github.com/rodolfoHOk/fullcycle.imersao18/sales-api/docs" // Import the generated docs
 	httpHandler "github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/infra/http"
 	"github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/infra/repository"

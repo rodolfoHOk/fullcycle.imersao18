@@ -8,6 +8,7 @@
 
 - GoLang
 - MySQL
+- Rest
 - Tests
 
 ## Go
@@ -30,8 +31,10 @@
 
 ### Requisitos
 
+- Docker
 - GoLang
 
 ### Comandos
 
--
+- docker compose up
+- go run cmd/events/main.go
