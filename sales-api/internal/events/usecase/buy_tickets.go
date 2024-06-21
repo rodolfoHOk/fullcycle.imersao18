@@ -38,7 +38,7 @@ func (uc *BuyTicketsUseCase) Execute(input BuyTicketsInputDTO) (*BuyTicketsOutpu
 	req := &service.ReservationRequest{
 		EventID:    input.EventID,
 		Spots:      input.Spots,
-		TicketType: input.TicketType,
+		TicketKind: input.TicketType,
 		CardHash:   input.CardHash,
 		Email:      input.Email,
 	}
