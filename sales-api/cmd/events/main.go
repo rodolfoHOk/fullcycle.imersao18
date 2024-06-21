@@ -18,6 +18,11 @@ import (
 	"github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/usecase"
 )
 
+// @title Events API
+// @version 1.0
+// @description This is a server for managing events. Imersão Full Cycle
+// @host localhost:8080
+// @BasePath /
 func main() {
 	db, err := sql.Open("mysql", "test_user:test_password@tcp(localhost:3306)/test_db")
 	if err != nil {
