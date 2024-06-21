@@ -10,12 +10,12 @@ import (
 	"syscall"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
-
+	_ "github.com/rodolfoHOk/fullcycle.imersao18/sales-api/docs" // Import the generated docs
 	httpHandler "github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/infra/http"
 	"github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/infra/repository"
 	"github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/infra/service"
 	"github.com/rodolfoHOk/fullcycle.imersao18/sales-api/internal/events/usecase"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // @title Events API
@@ -58,6 +58,7 @@ func main() {
 	)
 
 	r := http.NewServeMux()
+	r.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	r.HandleFunc("/events", eventsHandler.ListEvents)
 	r.HandleFunc("/events/{eventID}", eventsHandler.GetEvent)
 	r.HandleFunc("/events/{eventID}/spots", eventsHandler.ListSpots)

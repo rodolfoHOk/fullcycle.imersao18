@@ -169,10 +169,10 @@ func (h *EventsHandler) CreateEvent(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param eventID path string true "Event ID"
-// @Param input body CreateSpotsRequest true "Input data"
+// @Param input body usecase.CreateSpotsInputDTO true "Input data"
 // @Success 201 {object} usecase.CreateSpotsOutputDTO
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} string
+// @Failure 500 {object} string
 // @Router /events/{eventID}/spots [post]
 func (h *EventsHandler) CreateSpots(w http.ResponseWriter, r *http.Request) {
 	eventID := r.PathValue("eventID")
