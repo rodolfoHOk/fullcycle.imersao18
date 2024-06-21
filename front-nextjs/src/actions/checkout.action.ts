@@ -5,13 +5,16 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { clearSpotsAction } from './clear-spots.action';
 
-export async function checkoutAction({
-  cardHash,
-  email,
-}: {
-  cardHash: string;
-  email: string;
-}) {
+export async function checkoutAction(
+  prevState: any,
+  {
+    cardHash,
+    email,
+  }: {
+    cardHash: string;
+    email: string;
+  }
+) {
   const cookieStore = cookies();
   const eventId = cookieStore.get('eventId')?.value;
   const spots = JSON.parse(cookieStore.get('spots')?.value || '[]');

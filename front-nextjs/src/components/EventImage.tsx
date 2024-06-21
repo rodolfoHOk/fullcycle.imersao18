@@ -13,7 +13,7 @@ export function EventImage(props: EventImageProps) {
       alt={props.alt}
       width={277}
       height={277}
-      priority
+      // priority
     />
   );
 }
