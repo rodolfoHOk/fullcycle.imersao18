@@ -109,9 +109,12 @@ export class EventsService {
             spots.map((spot) =>
               prisma.ticket.create({
                 data: {
-                  email: dto.email,
                   spotId: spot.id,
                   ticketKind: dto.ticket_kind,
+                  email: dto.email,
+                },
+                include: {
+                  Spot: true,
                 },
               }),
             ),

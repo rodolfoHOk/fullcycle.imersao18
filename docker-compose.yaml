@@ -1,0 +1,5 @@
+include:
+  - sales-api/docker-compose.yaml
+  - partners-api/docker-compose.yaml
+  - front-nextjs/docker-compose.yaml
+  - api-gateway/docker-compose.dbless.yaml

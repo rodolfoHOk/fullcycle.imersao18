@@ -79,3 +79,17 @@
 [Repositório do Kong API Gateway](/api-gateway/)
 
 [Readme do Kong API Gateway](/api-gateway/README.md)
+
+## Run All
+
+### Requisitos
+
+- Docker
+
+### Comandos
+
+- docker compose up
+- docker compose exec golang sh
+  - go run cmd/events/main.go
+
+##### 28:54

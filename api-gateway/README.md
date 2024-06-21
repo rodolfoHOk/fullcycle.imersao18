@@ -18,7 +18,7 @@
 
 - docker compose -f docker-compose.dbless.yaml up
 
-## Guia
+## Guia exemplo
 
 ### Registrar serviço com rota e request header x-api-token
 
@@ -42,6 +42,10 @@ docker run --add-host host.docker.internal:host-gateway --network host kong/deck
 ```
 
 - [dump gerado pego exemplo](/api-gateway/dump-example.yaml)
+
+## Guia projeto api gateway
+
+-
 
 ## Kong
 
