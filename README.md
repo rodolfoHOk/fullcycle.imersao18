@@ -73,3 +73,9 @@
 [Repositório do Frontend](/front-nextjs/)
 
 [Readme do Frontend](/front-nextjs/README.md)
+
+## Dia 5 - Integrando o sistema de ingressos com Kong
+
+[Repositório do Kong API Gateway](/api-gateway/)
+
+[Readme do Kong API Gateway](/api-gateway/README.md)

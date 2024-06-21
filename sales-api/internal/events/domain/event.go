@@ -10,8 +10,8 @@ import (
 var (
 	ErrEventNameRequired     = errors.New("event name is required")
 	ErrEventDateFuture       = errors.New("event date must be in the future")
-	ErrEventCapacityPositive = errors.New("event capacity must be greater than 0")
-	ErrEventPricePositive    = errors.New("event price must be greater than 0")
+	ErrEventCapacityPositive = errors.New("event capacity must be greater than zero")
+	ErrEventPricePositive    = errors.New("event price must be greater than zero")
 	ErrEventNotFound         = errors.New("event not found")
 )
 

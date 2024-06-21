@@ -7,6 +7,8 @@
 ## Tecnologias
 
 - GoLang
+- MySQL
+- Tests
 
 ## Go
 
